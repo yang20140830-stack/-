@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>海灘清潔遊戲</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+    #game {
+      width: 100vw;
+      height: 100vh;
+      background: url('Frame.png') no-repeat center center;
+      background-size: cover;
+      position: relative;
+      cursor: pointer;
+    }
+    .bottle {
+      position: absolute;
+      width: 60px;
+      height: auto;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .bottle:hover {
+      transform: scale(1.2);
+    }
+    #scoreboard {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      background: rgba(255,255,255,0.7);
+      padding: 5px 15px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div id="game">
+    <div id="scoreboard">分數: 0</div>
+  </div>
+
+  <script>
+    const game = document.getElementById("game");
+    const scoreboard = document.getElementById("scoreboard");
+    let score = 0;
+
+    // 出現垃圾
+    function spawnBottle() {
+      const bottle = document.createElement("img");
+      bottle.src = "bottle.png"; // 寶特瓶圖片
+      bottle.classList.add("bottle");
+      bottle.style.left = Math.random() * (window.innerWidth - 60) + "px";
+      bottle.style.top = Math.random() * (window.innerHeight - 100) + "px";
+
+      // 點擊加分
+      bottle.addEventListener("click", () => {
+        score++;
+        scoreboard.textContent = "分數: " + score;
+        bottle.remove();
+      });
+
+      game.appendChild(bottle);
+
+      // 5秒後自動消失
+      setTimeout(() => {
+        if (bottle.parentElement) bottle.remove();
+      }, 5000);
+    }
+
+    // 每 1.5 秒生成一個瓶子
+    setInterval(spawnBottle, 1500);
+  </script>
+</body>
+</html>
